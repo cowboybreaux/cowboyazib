@@ -2,13 +2,10 @@
 
 import { useEffect, useRef, type CSSProperties } from 'react';
 
-const lead =
-  '"Quick, quick, tell me something awful; like you are a poet trapped inside a body of an IT guy!"';
 const detail =
-  'Full-time IoT student, aspiring data scientist, and part-time retail ' +
-  'worker, making everyday tools with software and data.';
+  'Aspiring data scientist, somehow an IoT student and somewhat writes... sometimes';
 let delay = 220;
-const phrases = [lead, detail].map((text) =>
+const phrases = [detail].map((text) =>
   text.split(' ').map((word) => {
     const letters = Array.from(word, (letter) => {
       const at = delay;
@@ -90,20 +87,10 @@ export function HeroCopy() {
   return (
     <p ref={paragraph} className="hero-copy">
       <span className="sr-only">
-        <strong>
-          <em>{lead}</em>
-        </strong>
-        <br />
-        <br />
         {detail}
       </span>
       <span aria-hidden="true">
-        <strong>
-          <em>{words(phrases[0])}</em>
-        </strong>
-        <br />
-        <br />
-        {words(phrases[1])}
+        {words(phrases[0])}
       </span>
     </p>
   );

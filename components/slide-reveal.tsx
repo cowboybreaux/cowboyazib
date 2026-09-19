@@ -24,7 +24,7 @@ export function SlideReveal() {
           observer.unobserve(entry.target);
         });
       },
-      { rootMargin: '0px', threshold: 0.08 },
+      { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
     );
     slides.forEach((slide) => observer.observe(slide));
     const onMotionChange = () => {

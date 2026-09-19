@@ -21,7 +21,7 @@ export const projects: Project[] = [
     category: 'Web application / Public transport',
     status: 'In progress · sample status',
     description:
-      'A transit companion for buses, trains, and the journey between.',
+      'A lightweight transit companion designed to make navigating RapidKL feel less fragmented, bringing buses, trains, nearby hubs, and the in-between parts of the journey into one simple experience.',
     tech: ['Next.js', 'Google Maps', 'GTFS-Realtime'],
     note: 'Open data, made useful.',
     placeholder: false,

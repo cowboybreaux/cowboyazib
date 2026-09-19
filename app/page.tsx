@@ -6,6 +6,7 @@ import {
   ProjectPreview,
   CurrentStatus,
 } from '@/components/site';
+import { WorkSlideshow } from '@/components/work-slideshow';
 import { projects } from '@/lib/content';
 import { Skills } from '@/components/skills';
 export default function Home() {
@@ -15,7 +16,7 @@ export default function Home() {
       <section id="hello" className="slide slide-full hero">
         <div className="hero-inner">
           <p className="hero-hello">Hey there! I&rsquo;m</p>
-          <h1 className="hero-name">
+          <h1 className="hero-name" data-glow-text="SHAHRUL AZIB.">
             SHAHRUL AZIB<span className="hero-period">.</span>
           </h1>
           <HeroCopy />
@@ -31,7 +32,7 @@ export default function Home() {
       </section>
       <div className="home-grid slide">
         <div className="work-column">
-          <section id="selected-work" className="selected-work">
+          <WorkSlideshow>
             <div data-slide="out">
               <SectionHeading number="01" title="WORK" />
             </div>
@@ -47,9 +48,9 @@ export default function Home() {
                 }}
                 screenshot={{
                   src: '/images/projects/lululemon-reimagined.png',
-                  width: 2616,
-                  height: 2122,
-                  alt: 'Lululemon Reimagined homepage featuring the Fast & Free collection',
+                  width: 2000,
+                  height: 1441,
+                  alt: 'Lululemon Reimagined homepage featuring the Wunder Train collection',
                 }}
                 featured
                 reveal
@@ -84,10 +85,10 @@ export default function Home() {
                 reveal
               />
             </div>
-          </section>
+          </WorkSlideshow>
           <Skills />
+          <CurrentStatus />
         </div>
-        <CurrentStatus />
       </div>
     </main>
   );

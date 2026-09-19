@@ -146,6 +146,44 @@ export function StarEntrance() {
     };
   }, []);
 
+  useLayoutEffect(() => {
+    if (!finished) return;
+    const stars = document.querySelector<HTMLElement>('.edge-stars');
+    if (!stars) return;
+
+    let frame = 0;
+    const updateOpacity = () => {
+      const maxScroll = Math.max(
+        1,
+        document.documentElement.scrollHeight - window.innerHeight,
+      );
+      const fadeDistance = Math.min(360, Math.max(180, maxScroll * 0.18));
+      const fadeStart = Math.max(0, maxScroll - fadeDistance);
+      const progress =
+        fadeStart === maxScroll
+          ? 1
+          : Math.min(
+              1,
+              Math.max(0, (window.scrollY - fadeStart) / fadeDistance),
+            );
+      stars.style.opacity = String(1 - progress);
+      frame = 0;
+    };
+    const requestUpdate = () => {
+      if (!frame) frame = window.requestAnimationFrame(updateOpacity);
+    };
+
+    updateOpacity();
+    window.addEventListener('scroll', requestUpdate, { passive: true });
+    window.addEventListener('resize', requestUpdate);
+    return () => {
+      window.removeEventListener('scroll', requestUpdate);
+      window.removeEventListener('resize', requestUpdate);
+      if (frame) window.cancelAnimationFrame(frame);
+      stars.style.removeProperty('opacity');
+    };
+  }, [finished]);
+
   if (finished)
     return (
       <div className="edge-stars" aria-hidden="true" style={insetStyle}>

@@ -49,10 +49,13 @@ export function ProjectPreview({
   return (
     <article
       id={project.slug}
-      className={featured ? 'project project-featured' : 'project'}
-      data-slide={reveal ? 'out' : undefined}
+      className={
+        featured
+          ? `project project-featured project-${project.slug}`
+          : 'project'
+      }
     >
-      <div className="project-top">
+      <div className="project-top" data-slide={reveal ? 'out' : undefined}>
         <span className="eyebrow">● {label}</span>
         {project.liveUrl && (
           <a
@@ -67,27 +70,46 @@ export function ProjectPreview({
         )}
       </div>
       {screenshot && (
-        <Image
-          {...screenshot}
-          className="project-screenshot"
-          sizes="(max-width: 700px) calc(100vw - 82px), (max-width: 1000px) calc(100vw - 114px), 733px"
-        />
-      )}
-      <h3>
-        {project.liveUrl ? (
-          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-            {project.name}
-          </a>
-        ) : (
-          project.name
-        )}
-      </h3>
-      <p className="project-description">{project.description}</p>
-      {project.tech.length > 0 && (
-        <div className="project-bottom">
-          <span>{project.tech.join(' · ')}</span>
+        <div
+          className="project-image-frame"
+          data-slide={reveal ? 'out' : undefined}
+        >
+          <Image
+            {...screenshot}
+            className="project-screenshot"
+            sizes="(max-width: 700px) calc(100vw - 82px), (max-width: 1000px) calc(100vw - 114px), 733px"
+          />
         </div>
       )}
+      <div className="project-info">
+        <h3 data-slide={reveal ? 'out' : undefined}>
+          {project.liveUrl ? (
+            <a
+              href={project.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {project.name}
+            </a>
+          ) : (
+            project.name
+          )}
+        </h3>
+        <p
+          className="project-description"
+          data-slide={reveal ? 'out' : undefined}
+        >
+          {project.description}
+        </p>
+        {project.tech.length > 0 && (
+          <div
+            className="project-bottom"
+            data-slide={reveal ? 'out' : undefined}
+          >
+            <span>{project.tech.join(' · ')}</span>
+          </div>
+        )}
+      </div>
     </article>
   );
 }
@@ -98,52 +120,45 @@ export function CurrentStatus() {
       className="currently"
       aria-labelledby="currently-title"
     >
-      <div className="section-heading" data-slide="out">
-        <h2 id="currently-title">
-          <span className="live-dot" aria-hidden="true" />
-          CURRENTLY
-        </h2>
+      <div className="currently-main">
+        <div className="section-heading" data-slide="out">
+          <h2 id="currently-title">
+            <span className="live-dot" aria-hidden="true" />
+            CURRENTLY
+          </h2>
+        </div>
+        <dl className="status-board">
+          <div data-slide="out">
+            <dt>Studying</dt>
+            <dd>Bachelor of Information Technology (Internet of Things)</dd>
+          </div>
+          <div data-slide="out">
+            <dt>University</dt>
+            <dd>Universiti Kuala Lumpur (MIIT)</dd>
+          </div>
+          <div data-slide="out">
+            <dt>Working</dt>
+            <dd>Part time educator @ Lululemon</dd>
+          </div>
+        </dl>
       </div>
-      <dl className="status-board">
-        <div data-slide="out">
-          <dt>Studying</dt>
-          <dd>Bachelor of Information Technology (Internet of Things)</dd>
-        </div>
-        <div data-slide="out">
-          <dt>Building</dt>
-          <dd>
-            <Link href="/#rapidkl-companion">RapidKL Companion ↗</Link>
-          </dd>
-        </div>
-        <div data-slide="out">
-          <dt>Working</dt>
-          <dd>
-            University &amp; a current role
-            <span className="detail">Role details to come</span>
-          </dd>
-        </div>
-      </dl>
       <div className="off-hours">
         <span className="eyebrow" data-slide="out">
           Away from the keyboard
         </span>
         <dl className="status-board secondary">
-          <div data-slide="out">
+          <div className="listening-entry" data-slide="out">
             <dt>Listening</dt>
             <dd>
-              <span className="album-title">
-                you seem pretty sad for a girl so in love
-              </span>{' '}
-              — Olivia Rodrigo
+              <div className="apple-music-embed">
+                <iframe
+                  src="https://embed.music.apple.com/my/playlist/lost-and-found/pl.u-6mo4l98iB68GGmZ"
+                  title="Lost and Found Apple Music playlist"
+                  allowFullScreen
+                  allow="encrypted-media *; fullscreen *; clipboard-write *;"
+                />
+              </div>
             </dd>
-          </div>
-          <div data-slide="out">
-            <dt>Reading</dt>
-            <dd>Just Kids by Patti Smith</dd>
-          </div>
-          <div data-slide="out">
-            <dt>Watching</dt>
-            <dd>FX&apos;s Adults</dd>
           </div>
         </dl>
       </div>
@@ -202,7 +217,7 @@ export function MediaEntry({ entry }: { entry: MediaRecord }) {
 export function Footer() {
   return (
     <footer className="site-footer">
-      <div className="footer-inner" data-slide="out">
+      <div className="footer-inner">
         <span className="footer-icon" aria-hidden="true" />
         <span>© 2026 SHAHRUL AZIB</span>
         <span aria-hidden="true">☆</span>

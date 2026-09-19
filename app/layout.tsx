@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Navigation, Footer } from '@/components/site';
 import { SlideReveal } from '@/components/slide-reveal';
+import { SmoothScroll } from '@/components/smooth-scroll';
 import './globals.css';
 export const metadata: Metadata = {
   title: { default: 'Azib', template: '%s — CowboyAzib' },
@@ -28,10 +29,20 @@ export default function RootLayout({
           Skip to content
         </a>
         <SlideReveal />
+        <SmoothScroll />
         <div className="site-shell">
           <Navigation />
           {children}
         </div>
+        <aside className="psa-banner" aria-label="Project availability">
+          <div className="psa-copy">
+            <p>NOT TAKING ON PROJECTS JUST YET. GIVE ME A MINUTE.</p>
+            <p>
+              HIT MY LINE THO... WHO KNOWS! AHA{' '}
+              <a href="mailto:AJIBREAUX@GMAIL.COM">AJIBREAUX@GMAIL.COM</a>
+            </p>
+          </div>
+        </aside>
         <Footer />
       </body>
     </html>

@@ -226,9 +226,7 @@ export function Navigation() {
             >
               <span className="menu-index">02</span>
               <span className="menu-label">Work</span>
-              <span className="menu-arrow" aria-hidden="true">
-                →
-              </span>
+              <span className="menu-arrow" aria-hidden="true" />
             </Link>
             <Link
               className="menu-link"
@@ -238,9 +236,7 @@ export function Navigation() {
             >
               <span className="menu-index">03</span>
               <span className="menu-label">Skills</span>
-              <span className="menu-arrow" aria-hidden="true">
-                →
-              </span>
+              <span className="menu-arrow" aria-hidden="true" />
             </Link>
             <button type="button" className="menu-link is-inactive" aria-label="Archive is not yet available">
               <span className="menu-index">04</span>

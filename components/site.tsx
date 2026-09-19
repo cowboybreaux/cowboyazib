@@ -10,7 +10,7 @@ export { Navigation } from './navigation';
 export function Arrow() {
   return (
     <span aria-hidden="true" className="arrow">
-      ↗
+      <span className="arrow-line" />
     </span>
   );
 }
@@ -37,12 +37,14 @@ export function ProjectPreview({
   project,
   label = 'Live app',
   screenshot,
+  status,
   featured = false,
   reveal = false,
 }: {
   project: Pick<Project, 'slug' | 'name' | 'liveUrl' | 'description' | 'tech'>;
   label?: React.ReactNode;
   screenshot?: { src: string; width: number; height: number; alt: string };
+  status?: string;
   featured?: boolean;
   reveal?: boolean;
 }) {
@@ -101,6 +103,11 @@ export function ProjectPreview({
         >
           {project.description}
         </p>
+        {status && (
+          <span className="project-status" data-slide={reveal ? 'out' : undefined}>
+            {status}
+          </span>
+        )}
         {project.tech.length > 0 && (
           <div
             className="project-bottom"

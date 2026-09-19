@@ -22,7 +22,7 @@ export default function Home() {
           <HeroCopy />
           <div className="hero-actions">
             <a className="ghost-button" href="#selected-work">
-              Work <span aria-hidden="true">↓</span>
+              Work <span className="down-arrow" aria-hidden="true" />
             </a>
             <a className="ghost-button" href="#currently">
               More about me <Arrow />
@@ -41,7 +41,7 @@ export default function Home() {
                 project={{
                   slug: 'lululemon-reimagined',
                   name: 'Lululemon Reimagined',
-                  liveUrl: 'https://lululemon-reimagined.vercel.app/',
+                  liveUrl: 'https://lulu-reimagined.cowboyazib.com',
                   description:
                     'A self-initiated e-commerce redesign exploring how Lululemon’s digital experience could feel more editorial, expressive, and interaction-driven while remaining responsive and product-focused.',
                   tech: ['Next.js', 'TypeScript', 'React', 'CSS', 'Vercel'],
@@ -52,6 +52,7 @@ export default function Home() {
                   height: 1441,
                   alt: 'Lululemon Reimagined homepage featuring the Wunder Train collection',
                 }}
+                status="IN PROGRESS"
                 featured
                 reveal
               />

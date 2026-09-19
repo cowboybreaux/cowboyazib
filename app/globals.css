@@ -329,11 +329,26 @@ h3 {
 }
 .menu-arrow {
   display: inline-block;
+  position: relative;
+  width: 1.1em;
+  height: 1px;
+  background: currentColor;
   opacity: 0;
   transform: translateX(-10px);
   transition:
     opacity 220ms ease,
     transform 220ms ease;
+}
+.menu-arrow::after {
+  position: absolute;
+  right: 0;
+  top: -0.22rem;
+  width: 0.38rem;
+  height: 0.38rem;
+  border-top: 1px solid currentColor;
+  border-right: 1px solid currentColor;
+  content: '';
+  transform: rotate(45deg);
 }
 .menu-link:hover .menu-arrow,
 .menu-link:focus-visible .menu-arrow {
@@ -934,9 +949,40 @@ html[data-entrance='done'] .hero-inner > *:nth-child(4) {
   line-height: 1;
 }
 .arrow {
-  font-family: Arial, sans-serif;
-  font-size: 1.1rem;
+  position: relative;
+  display: inline-block;
+  width: 1.1rem;
+  height: 1.1rem;
   flex-shrink: 0;
+}
+.arrow-line {
+  position: absolute;
+  top: 0.24rem;
+  right: 0.1rem;
+  width: 0.72rem;
+  height: 1px;
+  background: currentColor;
+  transform: rotate(-45deg);
+  transform-origin: right center;
+}
+.arrow-line::after {
+  position: absolute;
+  right: 0;
+  bottom: -0.24rem;
+  width: 0.34rem;
+  height: 0.34rem;
+  border-top: 1px solid currentColor;
+  border-right: 1px solid currentColor;
+  content: '';
+}
+.down-arrow {
+  position: relative;
+  display: inline-block;
+  width: 0.65rem;
+  height: 0.65rem;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  transform: rotate(45deg) translateY(-0.12rem);
 }
 .project-description {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
@@ -946,6 +992,17 @@ html[data-entrance='done'] .hero-inner > *:nth-child(4) {
   line-height: 1;
   color: var(--muted);
   max-width: 550px;
+}
+.project-status {
+  display: inline-block;
+  margin-top: 18px;
+  color: var(--star-red);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    'Liberation Mono', monospace;
+  font-size: 0.61875rem;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
 }
 .project-route {
   display: flex;

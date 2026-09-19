@@ -17,7 +17,7 @@ export const projects: Project[] = [
   {
     slug: 'rapidkl-companion',
     name: 'RapidKL Companion',
-    liveUrl: 'https://rapidkl-companion-git-main-cowboys5.vercel.app',
+    liveUrl: 'https://rapidklcompanion.cowboyazib.com',
     category: 'Web application / Public transport',
     status: 'In progress · sample status',
     description:

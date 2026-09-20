@@ -71,7 +71,7 @@ export function ProjectPreview({
           </a>
         )}
       </div>
-      {screenshot && (
+      {screenshot ? (
         <div
           className="project-image-frame"
           data-slide={reveal ? 'out' : undefined}
@@ -81,6 +81,25 @@ export function ProjectPreview({
             className="project-screenshot"
             sizes="(max-width: 700px) calc(100vw - 82px), (max-width: 1000px) calc(100vw - 114px), 733px"
           />
+        </div>
+      ) : (
+        <div
+          className="project-image-frame project-placeholder"
+          data-slide={reveal ? 'out' : undefined}
+          aria-hidden="true"
+        >
+          <div className="project-placeholder-art">
+            <span className="project-placeholder-number" />
+            <div className="project-placeholder-topline">
+              <span>Selected project / Digital systems</span>
+              <span className="project-placeholder-star">✦</span>
+            </div>
+            <span className="project-placeholder-title">{project.name}</span>
+            <div className="project-placeholder-meta">
+              <span>{project.tech.join(' / ')}</span>
+              <span className="project-placeholder-registration">+</span>
+            </div>
+          </div>
         </div>
       )}
       <div className="project-info">
@@ -120,21 +139,22 @@ export function ProjectPreview({
     </article>
   );
 }
-export function CurrentStatus() {
+export function AboutMe() {
   return (
-    <aside
-      id="currently"
-      className="currently"
-      aria-labelledby="currently-title"
-    >
-      <div className="currently-main">
-        <div className="section-heading" data-slide="out">
-          <h2 id="currently-title">
-            <span className="live-dot" aria-hidden="true" />
-            CURRENTLY
-          </h2>
+    <section id="about-me" className="about-me" aria-label="About me">
+      <div data-slide="out">
+        <SectionHeading number="01" title="ABOUT ME" />
+      </div>
+      <div className="about-me-grid">
+        <div className="about-me-copy">
+          <p data-slide="out">
+            Information Technology (Internet of Things) undergraduate with a background in telecommunications and experience across software development, data analytics, UI/UX prototyping, and customer-facing retail. Skilled in building practical digital projects using technologies such as Next.js, React, Java, Python, SQL, and IoT platforms, with a growing focus on data analytics and human-centered product design.
+          </p>
+          <p data-slide="out">
+            Alongside technical work, brings strong communication, visual sensibility, and customer experience skills developed through retail and collaborative projects. Particularly interested in creating digital experiences that are functional, accessible, visually distinctive, and grounded in real-world user needs.
+          </p>
         </div>
-        <dl className="status-board">
+        <dl className="status-board about-me-status">
           <div data-slide="out">
             <dt>Studying</dt>
             <dd>Bachelor of Information Technology (Internet of Things)</dd>
@@ -147,8 +167,19 @@ export function CurrentStatus() {
             <dt>Working</dt>
             <dd>Part time educator @ Lululemon</dd>
           </div>
+          <div data-slide="out">
+            <dt>Building</dt>
+            <dd>Lululemon Reimagined <span className="detail">In progress</span></dd>
+          </div>
         </dl>
       </div>
+    </section>
+  );
+}
+
+export function AwayFromKeyboard() {
+  return (
+    <aside className="currently" aria-label="Away from the keyboard">
       <div className="off-hours">
         <span className="eyebrow" data-slide="out">
           Away from the keyboard

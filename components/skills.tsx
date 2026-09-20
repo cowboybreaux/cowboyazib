@@ -30,7 +30,7 @@ export function Skills() {
   return (
     <section id="skills" className="skills" aria-label="Skills">
       <div data-slide="out">
-        <SectionHeading number="02" title="SKILLS" />
+        <SectionHeading number="03" title="SKILLS" />
       </div>
       <dl className="skills-list">
         {categories.map(([category, names]) => (

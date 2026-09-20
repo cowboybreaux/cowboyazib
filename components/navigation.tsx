@@ -50,6 +50,7 @@ export function Navigation() {
     const entrance = document.getElementById('hello');
     if (!header || !brand) return;
     header.dataset.compact = 'false';
+    header.dataset.brandHidden = 'false';
     if (!entrance) return;
 
     let observedHeight = -1;
@@ -65,6 +66,7 @@ export function Navigation() {
         `${iconTravel * progress}px`,
       );
       header.dataset.compact = String(progress >= 0.98);
+      header.dataset.brandHidden = String(progress === 1);
     };
     const measure = () => {
       const icon = brand.querySelector('img');
@@ -214,10 +216,16 @@ export function Navigation() {
           aria-hidden={!isMenuOpen && !isClosing}
         >
           <div className="menu-inner">
-            <button type="button" className="menu-link is-inactive" aria-label="About is not yet available">
+            <Link
+              className="menu-link"
+              href="/#about-me"
+              onClick={(event) => handleActiveLinkClick(event, '#about-me')}
+              onKeyDown={closeOnEscape}
+            >
               <span className="menu-index">01</span>
-              <span className="menu-label">About</span>
-            </button>
+              <span className="menu-label">About me</span>
+              <span className="menu-arrow" aria-hidden="true" />
+            </Link>
             <Link
               className="menu-link"
               href="/#selected-work"

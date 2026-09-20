@@ -1,10 +1,12 @@
 import { StarEntrance } from '@/components/star-entrance';
+import { EntranceVideo } from '@/components/entrance-video';
 import { HeroCopy } from '@/components/hero-copy';
+import { ArrowDown, ArrowUpRight } from 'lucide-react';
 import {
-  Arrow,
   SectionHeading,
   ProjectPreview,
-  CurrentStatus,
+  AboutMe,
+  AwayFromKeyboard,
 } from '@/components/site';
 import { WorkSlideshow } from '@/components/work-slideshow';
 import { projects } from '@/lib/content';
@@ -14,6 +16,7 @@ export default function Home() {
     <main id="main" tabIndex={-1} className="slides">
       <StarEntrance />
       <section id="hello" className="slide slide-full hero">
+        <EntranceVideo />
         <div className="hero-inner">
           <p className="hero-hello">Hey there! I&rsquo;m</p>
           <h1 className="hero-name" data-glow-text="SHAHRUL AZIB.">
@@ -22,19 +25,20 @@ export default function Home() {
           <HeroCopy />
           <div className="hero-actions">
             <a className="ghost-button" href="#selected-work">
-              Work <span className="down-arrow" aria-hidden="true" />
+              Work <ArrowDown className="hero-button-icon" aria-hidden="true" />
             </a>
-            <a className="ghost-button" href="#currently">
-              More about me <Arrow />
+            <a className="ghost-button" href="#about-me">
+              More about me <ArrowUpRight className="hero-button-icon" aria-hidden="true" />
             </a>
           </div>
         </div>
       </section>
       <div className="home-grid slide">
         <div className="work-column">
+          <AboutMe />
           <WorkSlideshow>
             <div data-slide="out">
-              <SectionHeading number="01" title="WORK" />
+              <SectionHeading number="02" title="WORKS // PROJECTS" />
             </div>
             <div className="work-list">
               <ProjectPreview
@@ -88,7 +92,7 @@ export default function Home() {
             </div>
           </WorkSlideshow>
           <Skills />
-          <CurrentStatus />
+          <AwayFromKeyboard />
         </div>
       </div>
     </main>

@@ -6,6 +6,7 @@ import {
   type Writing,
   type MediaRecord,
 } from '@/lib/content';
+import { LiveProjectPreview } from './live-project-preview';
 export { Navigation } from './navigation';
 export function Arrow() {
   return (
@@ -37,6 +38,7 @@ export function ProjectPreview({
   project,
   label = 'Live app',
   screenshot,
+  previewUrl,
   status,
   featured = false,
   reveal = false,
@@ -44,6 +46,7 @@ export function ProjectPreview({
   project: Pick<Project, 'slug' | 'name' | 'liveUrl' | 'description' | 'tech'>;
   label?: React.ReactNode;
   screenshot?: { src: string; width: number; height: number; alt: string };
+  previewUrl?: string;
   status?: string;
   featured?: boolean;
   reveal?: boolean;
@@ -71,7 +74,13 @@ export function ProjectPreview({
           </a>
         )}
       </div>
-      {screenshot ? (
+      {previewUrl ? (
+        <LiveProjectPreview
+          name={project.name}
+          url={project.liveUrl ?? previewUrl}
+          reveal={reveal}
+        />
+      ) : screenshot ? (
         <div
           className="project-image-frame"
           data-slide={reveal ? 'out' : undefined}

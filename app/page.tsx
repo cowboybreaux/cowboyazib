@@ -56,6 +56,7 @@ export default function Home() {
                   height: 1441,
                   alt: 'Lululemon Reimagined homepage featuring the Wunder Train collection',
                 }}
+                previewUrl="https://lulu-reimagined.cowboyazib.com"
                 status="IN PROGRESS"
                 featured
                 reveal
@@ -68,6 +69,7 @@ export default function Home() {
                   height: 1036,
                   alt: 'RapidKL Companion hub showing Klang Valley rail line statuses',
                 }}
+                previewUrl="https://rapidklcompanion.cowboyazib.com"
                 featured
                 reveal
               />

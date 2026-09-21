@@ -31,6 +31,16 @@ export function EntranceVideo() {
         Math.max(0, window.scrollY / (bounds.height * 0.85)),
       );
       element.style.setProperty('--dissolve-height', `${32 + progress * 58}%`);
+      if (window.matchMedia('(max-width: 1000px)').matches) {
+        const sectionScroll = Math.max(0, -bounds.top);
+        const parallax = Math.min(140, sectionScroll * 0.15);
+        element.style.setProperty(
+          '--entrance-parallax-y',
+          `${parallax}px`,
+        );
+      } else {
+        element.style.setProperty('--entrance-parallax-y', '0px');
+      }
     };
     const requestUpdate = () => {
       if (!frame) frame = requestAnimationFrame(update);
@@ -63,6 +73,7 @@ export function EntranceVideo() {
 
   return (
     <div ref={layer} className="entrance-video" aria-hidden="true">
+      <div className="entrance-video-media" />
       <video ref={video} autoPlay loop muted playsInline preload="none" />
       <div className="entrance-video-dissolve" />
     </div>

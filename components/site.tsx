@@ -10,9 +10,15 @@ import { LiveProjectPreview } from './live-project-preview';
 export { Navigation } from './navigation';
 export function Arrow() {
   return (
-    <span aria-hidden="true" className="arrow">
-      <span className="arrow-line" />
-    </span>
+    <svg
+      aria-hidden="true"
+      className="arrow"
+      viewBox="0 0 20 20"
+      focusable="false"
+    >
+      <line x1="3" y1="17" x2="17" y2="3" />
+      <polyline points="9,3 17,3 17,11" />
+    </svg>
   );
 }
 export function SectionHeading({
@@ -61,18 +67,7 @@ export function ProjectPreview({
       }
     >
       <div className="project-top" data-slide={reveal ? 'out' : undefined}>
-        <span className="eyebrow">● {label}</span>
-        {project.liveUrl && (
-          <a
-            className="project-external"
-            href={project.liveUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`Open ${project.name} in a new tab`}
-          >
-            <Arrow />
-          </a>
-        )}
+        <span className="eyebrow project-live-label">{label}</span>
       </div>
       {previewUrl ? (
         <LiveProjectPreview
@@ -101,7 +96,7 @@ export function ProjectPreview({
             <span className="project-placeholder-number" />
             <div className="project-placeholder-topline">
               <span>Selected project / Digital systems</span>
-              <span className="project-placeholder-star">✦</span>
+              <span className="project-placeholder-star" aria-hidden="true" />
             </div>
             <span className="project-placeholder-title">{project.name}</span>
             <div className="project-placeholder-meta">
@@ -119,7 +114,7 @@ export function ProjectPreview({
               target="_blank"
               rel="noopener noreferrer"
             >
-              {project.name}
+              {project.name} <Arrow />
             </a>
           ) : (
             project.name
@@ -267,7 +262,7 @@ export function Footer() {
       <div className="footer-inner">
         <span className="footer-icon" aria-hidden="true" />
         <span>© 2026 SHAHRUL AZIB</span>
-        <span aria-hidden="true">☆</span>
+        <span className="footer-star" aria-hidden="true" />
       </div>
     </footer>
   );

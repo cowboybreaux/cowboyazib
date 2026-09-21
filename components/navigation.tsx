@@ -10,6 +10,7 @@ import {
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import { scrollToSection } from '@/lib/section-navigation';
 
 const CLOSE_DURATION_MS = 420;
 
@@ -19,6 +20,7 @@ export function Navigation() {
   const headerRef = useRef<HTMLElement>(null);
   const brandRef = useRef<HTMLAnchorElement>(null);
   const closeTimerRef = useRef<number | null>(null);
+  const pendingSectionRef = useRef<string | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
 
@@ -31,6 +33,10 @@ export function Navigation() {
     closeTimerRef.current = window.setTimeout(() => {
       setIsMenuOpen(false);
       setIsClosing(false);
+      if (pendingSectionRef.current) {
+        scrollToSection(pendingSectionRef.current);
+        pendingSectionRef.current = null;
+      }
     }, CLOSE_DURATION_MS);
   }, [isMenuOpen]);
 
@@ -79,6 +85,7 @@ export function Navigation() {
         iconTravel = -brand.offsetLeft - icon.offsetLeft;
       }
       const height = header.getBoundingClientRect().height;
+      document.documentElement.style.setProperty('--header-offset', `${height}px`);
       if (height === observedHeight) return;
       observedHeight = height;
       travelDistance = Math.max(1, entrance.offsetHeight - height);
@@ -138,6 +145,7 @@ export function Navigation() {
   }, [closeMenu, isMenuOpen]);
 
   const openMenu = () => {
+    pendingSectionRef.current = null;
     if (closeTimerRef.current) {
       window.clearTimeout(closeTimerRef.current);
     }
@@ -153,22 +161,19 @@ export function Navigation() {
 
   const handleActiveLinkClick = (
     event: MouseEvent<HTMLAnchorElement>,
-    selector: string,
+    id: string,
   ) => {
+    if (
+      event.button !== 0 || event.metaKey || event.ctrlKey ||
+      event.shiftKey || event.altKey || !document.getElementById(id)
+    ) return;
     event.preventDefault();
-    closeMenu();
-    window.setTimeout(() => {
-      const target = document.querySelector(selector);
-      const lenis = window.__cowboyLenis;
-      if (lenis && target instanceof HTMLElement) {
-        lenis.scrollTo(target, {
-          offset: -(headerRef.current?.getBoundingClientRect().height ?? 0),
-          duration: 1.15,
-        });
-      } else {
-        target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }, CLOSE_DURATION_MS + 30);
+    if (isMenuOpen) {
+      pendingSectionRef.current = id;
+      closeMenu();
+    } else {
+      scrollToSection(id);
+    }
   };
 
   return (
@@ -179,6 +184,7 @@ export function Navigation() {
         className="wordmark"
         aria-label="COWBOY AZIB — Home"
         aria-current={path === '/' ? 'page' : undefined}
+        onClick={(event) => handleActiveLinkClick(event, 'hello')}
       >
         <span className="wordmark-text">COWBOY AZIB</span>
         <Image
@@ -219,7 +225,7 @@ export function Navigation() {
             <Link
               className="menu-link"
               href="/#about-me"
-              onClick={(event) => handleActiveLinkClick(event, '#about-me')}
+              onClick={(event) => handleActiveLinkClick(event, 'about-me')}
               onKeyDown={closeOnEscape}
             >
               <span className="menu-index">01</span>
@@ -229,7 +235,7 @@ export function Navigation() {
             <Link
               className="menu-link"
               href="/#selected-work"
-              onClick={(event) => handleActiveLinkClick(event, '#selected-work')}
+              onClick={(event) => handleActiveLinkClick(event, 'selected-work')}
               onKeyDown={closeOnEscape}
             >
               <span className="menu-index">02</span>
@@ -239,7 +245,7 @@ export function Navigation() {
             <Link
               className="menu-link"
               href="/#skills"
-              onClick={(event) => handleActiveLinkClick(event, '#skills')}
+              onClick={(event) => handleActiveLinkClick(event, 'skills')}
               onKeyDown={closeOnEscape}
             >
               <span className="menu-index">03</span>

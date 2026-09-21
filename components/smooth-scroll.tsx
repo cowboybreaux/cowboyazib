@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import Lenis from 'lenis';
+import { scrollToSection } from '@/lib/section-navigation';
 
 declare global {
   interface Window {
@@ -10,6 +11,26 @@ declare global {
 }
 
 export function SmoothScroll() {
+  useEffect(() => {
+    const handleAnchorClick = (event: MouseEvent) => {
+      if (
+        event.defaultPrevented || event.button !== 0 ||
+        event.metaKey || event.ctrlKey || event.shiftKey || event.altKey
+      ) return;
+      if (!(event.target instanceof Element)) return;
+      const anchor = event.target.closest<HTMLAnchorElement>('a[href^="#"]');
+      if (!anchor || anchor.target === '_blank' || anchor.hasAttribute('download')) return;
+      const hash = anchor.getAttribute('href');
+      if (!hash || hash === '#') return;
+      const id = decodeURIComponent(hash.slice(1));
+      if (!document.getElementById(id)) return;
+      event.preventDefault();
+      scrollToSection(id);
+    };
+    document.addEventListener('click', handleAnchorClick);
+    return () => document.removeEventListener('click', handleAnchorClick);
+  }, []);
+
   useEffect(() => {
     const reducedMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)',
@@ -36,28 +57,6 @@ export function SmoothScroll() {
     document.documentElement.classList.add('lenis');
     frame = window.requestAnimationFrame(raf);
 
-    const handleAnchorClick = (event: MouseEvent) => {
-      if (event.defaultPrevented || event.button !== 0) return;
-      const target = event.target;
-      if (!(target instanceof Element)) return;
-      const anchor = target.closest<HTMLAnchorElement>('a[href^="#"]');
-      if (!anchor || anchor.target === '_blank') return;
-      const selector = anchor.getAttribute('href');
-      if (!selector || selector === '#') return;
-      const destination = document.querySelector(selector);
-      if (!(destination instanceof HTMLElement)) return;
-
-      event.preventDefault();
-      lenis.scrollTo(destination, {
-        offset: -(
-          document.querySelector('.masthead')?.getBoundingClientRect().height ??
-          0
-        ),
-        duration: 1.15,
-      });
-    };
-    document.addEventListener('click', handleAnchorClick);
-
     const handleMotionChange = () => {
       if (reducedMotion.matches) {
         lenis.destroy();
@@ -69,7 +68,6 @@ export function SmoothScroll() {
     reducedMotion.addEventListener('change', handleMotionChange);
 
     return () => {
-      document.removeEventListener('click', handleAnchorClick);
       reducedMotion.removeEventListener('change', handleMotionChange);
       window.cancelAnimationFrame(frame);
       lenis.destroy();

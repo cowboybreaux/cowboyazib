@@ -2,12 +2,25 @@ import type { Metadata } from 'next';
 import { Navigation, Footer } from '@/components/site';
 import { SlideReveal } from '@/components/slide-reveal';
 import { SmoothScroll } from '@/components/smooth-scroll';
-import './globals.css';
+import '../globals.css';
 export const metadata: Metadata = {
-  title: { default: 'Azib', template: '%s — CowboyAzib' },
+  metadataBase: new URL('https://cowboyazib.com'),
+  title: { default: 'Cowboy Azib', template: '%s — CowboyAzib' },
   description:
     'Shahrul Azib. IT student, builder, and writer. Projects, writing, and current interests.',
   icons: { icon: '/icon.png' },
+  openGraph: {
+    title: 'Cowboy Azib',
+    url: 'https://cowboyazib.com',
+    siteName: 'Cowboy Azib',
+    images: [{ url: '/cowboyazib-social.png', width: 1200, height: 630, type: 'image/png' }],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Cowboy Azib',
+    images: [{ url: '/cowboyazib-social.png', width: 1200, height: 630, alt: 'Cowboy Azib' }],
+  },
 };
 export default function RootLayout({
   children,

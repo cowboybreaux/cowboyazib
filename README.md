@@ -41,6 +41,26 @@ The real domain is not connected by this source handoff. Any domain registration
 
 ## Routes
 
+### Standalone archive
+
+The archive has a separate root layout and stylesheet in `app/(archive)/`.
+The portfolio root layout and homepage live in `app/(portfolio)/`; their public URLs are unchanged.
+The archive does not load the portfolio stylesheet, entrance effects, smooth scrolling, navigation, or footer.
+
+- Local index: `http://localhost:3000/archive/`
+- Local entry: `http://localhost:3000/entry001/`
+- Intended production index: `https://archive.cowboyazib.com/`
+- Intended production entry: `https://archive.cowboyazib.com/entry001/`
+
+`proxy.ts` routes the archive hostname to its own index and error pages. It also recognizes
+`archive.localhost` for local host-based testing. Other hostnames keep the portfolio homepage.
+Attach `archive.cowboyazib.com` to the same hosting project and configure its DNS before going live;
+adding these source files does not deploy the site or connect the domain.
+
+Entry copy is stored verbatim in `lib/archive.ts`. Entries are listed newest first; insert future
+entries at the beginning of the array and add their individual routes inside `app/(archive)/`.
+No date has been invented for ENTRY #001. The archive design is in `app/(archive)/archive.css`.
+
 | URL                     | Purpose                                                      |
 | ----------------------- | ------------------------------------------------------------ |
 | `/`                     | Introduction, selected work, current status, latest writing  |

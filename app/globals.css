@@ -302,6 +302,7 @@ h3 {
   background: transparent;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     'Liberation Mono', monospace;
+  font-weight: 700;
   font-size: clamp(2.2rem, 5vw, 6rem);
   line-height: 0.92;
   letter-spacing: -0.07em;
@@ -420,7 +421,8 @@ h3 {
 .writing-meta,
 .project-bottom,
 .status-board dt {
-  font-family: 'Courier New', monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    'Liberation Mono', monospace;
 }
 .eyebrow {
   font-size: 0.73125rem;
@@ -653,7 +655,9 @@ html[data-entrance] [data-slide]:target {
   display: flex;
   align-items: center;
   gap: 14px;
-  font-family: 'Courier New', monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    'Liberation Mono', monospace;
+  font-weight: 700;
   font-size: 0.73125rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;

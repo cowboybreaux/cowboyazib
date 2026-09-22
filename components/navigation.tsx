@@ -252,10 +252,11 @@ export function Navigation() {
               <span className="menu-label">Skills</span>
               <span className="menu-arrow" aria-hidden="true" />
             </Link>
-            <button type="button" className="menu-link is-inactive" aria-label="Archive is not yet available">
+            <Link href="/archive/" className="menu-link" onKeyDown={closeOnEscape}>
               <span className="menu-index">04</span>
               <span className="menu-label">Archive</span>
-            </button>
+              <span className="menu-arrow" aria-hidden="true" />
+            </Link>
             <button type="button" className="menu-link is-inactive" aria-label="Contact is not yet available">
               <span className="menu-index">05</span>
               <span className="menu-label">Contact</span>

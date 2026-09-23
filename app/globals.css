@@ -1437,9 +1437,50 @@ html[data-entrance='done'] .hero-actions > .ghost-button:nth-child(2) {
 }
 .about-me-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.9fr);
-  gap: clamp(2rem, 5vw, 5rem);
+  grid-template-columns: minmax(220px, 280px) minmax(0, 1.15fr) minmax(0, 0.9fr);
+  gap: clamp(2rem, 4vw, 4.5rem);
   align-items: start;
+}
+.about-me-window {
+  width: 100%;
+  max-width: 280px;
+  margin: 0;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: var(--background);
+}
+.about-me-window-bar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  height: 27px;
+  padding: 0 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.28);
+}
+.about-me-window-control {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+.about-me-window-control-red {
+  background: #ff5f57;
+}
+.about-me-window-control-yellow {
+  background: #febc2e;
+}
+.about-me-window-control-green {
+  background: #28c840;
+}
+.about-me-window-image {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+}
+.about-me-window-image img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
 }
 .about-me-copy {
   max-width: 65ch;
@@ -1468,8 +1509,21 @@ html[data-entrance='done'] .hero-actions > .ghost-button:nth-child(2) {
     grid-template-columns: minmax(0, 1fr);
     gap: 2rem;
   }
+  .about-me-window {
+    width: min(78vw, 300px);
+    max-width: 100%;
+    justify-self: center;
+  }
   .about-me .section-heading h2 {
     font-size: 26px;
+  }
+}
+@media (min-width: 701px) and (max-width: 1100px) {
+  .about-me-grid {
+    grid-template-columns: minmax(200px, 0.7fr) minmax(0, 1.3fr);
+  }
+  .about-me-status {
+    grid-column: 1 / -1;
   }
 }
 .skills-row {

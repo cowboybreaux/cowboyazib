@@ -150,6 +150,23 @@ export function AboutMe() {
         <SectionHeading number="01" title="ABOUT ME" />
       </div>
       <div className="about-me-grid">
+        <figure className="about-me-window" data-slide="out">
+          <div className="about-me-window-bar" aria-hidden="true">
+            <span className="about-me-window-control about-me-window-control-red" />
+            <span className="about-me-window-control about-me-window-control-yellow" />
+            <span className="about-me-window-control about-me-window-control-green" />
+          </div>
+          <div className="about-me-window-image">
+            <Image
+              src="/images/about/about-me.gif"
+              alt="Shahrul Azib"
+              width={800}
+              height={534}
+              sizes="(max-width: 700px) min(78vw, 300px), (max-width: 1100px) 32vw, 280px"
+              unoptimized
+            />
+          </div>
+        </figure>
         <div className="about-me-copy">
           <p data-slide="out">
             Information Technology (Internet of Things) undergraduate with a background in telecommunications and experience across software development, data analytics, UI/UX prototyping, and customer-facing retail. Skilled in building practical digital projects using technologies such as Next.js, React, Java, Python, SQL, and IoT platforms, with a growing focus on data analytics and human-centered product design.

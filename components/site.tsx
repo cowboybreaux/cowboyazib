@@ -207,16 +207,6 @@ export function AwayFromKeyboard() {
     </aside>
   );
 }
-export function Contact() {
-  return (
-    <section id="contact" className="contact-section" aria-label="Contact">
-      <div data-slide="out">
-        <SectionHeading number="05" title="CONTACT" />
-      </div>
-      <p className="contact-message">uh... about that..</p>
-    </section>
-  );
-}
 export function WritingPreview({ writing }: { writing: Writing }) {
   return (
     <article className="writing-preview">

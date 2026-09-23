@@ -7,6 +7,7 @@ import {
   ProjectPreview,
   AboutMe,
   AwayFromKeyboard,
+  Contact,
 } from '@/components/site';
 import { WorkSlideshow } from '@/components/work-slideshow';
 import { projects } from '@/lib/content';
@@ -95,6 +96,7 @@ export default function Home() {
           </WorkSlideshow>
           <Skills />
           <AwayFromKeyboard />
+          <Contact />
         </div>
       </div>
     </main>

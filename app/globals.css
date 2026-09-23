@@ -1625,6 +1625,25 @@ html[data-entrance='done'] .hero-actions > .ghost-button:nth-child(2) {
 .secondary dd {
   font-size: 0.7875rem;
 }
+.contact-section {
+  display: flex;
+  min-height: clamp(30rem, 80svh, 50rem);
+  flex-direction: column;
+  padding: clamp(2rem, 6vh, 4rem) 0;
+  border-top: 1px solid var(--border);
+}
+.contact-message {
+  display: grid;
+  flex: 1;
+  width: 100%;
+  min-height: 15rem;
+  place-items: center;
+  text-align: center;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(1.8rem, 4vw, 3.4rem);
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+}
 .latest-writing {
   border: 1px solid var(--border);
   border-radius: 6px;

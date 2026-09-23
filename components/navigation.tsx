@@ -257,10 +257,16 @@ export function Navigation() {
               <span className="menu-label">Archive</span>
               <span className="menu-arrow" aria-hidden="true" />
             </Link>
-            <button type="button" className="menu-link is-inactive" aria-label="Contact is not yet available">
+            <Link
+              className="menu-link"
+              href="/#contact"
+              onClick={(event) => handleActiveLinkClick(event, 'contact')}
+              onKeyDown={closeOnEscape}
+            >
               <span className="menu-index">05</span>
               <span className="menu-label">Contact</span>
-            </button>
+              <span className="menu-arrow" aria-hidden="true" />
+            </Link>
           </div>
 
           <div className="menu-footer" aria-label="Site information">

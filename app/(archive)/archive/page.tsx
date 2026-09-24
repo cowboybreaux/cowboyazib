@@ -17,7 +17,7 @@ export default function ArchiveIndex() {
         {archiveEntries.map((entry) => (
           <li key={entry.slug}>
             <Link href={`/${entry.slug}/`}>
-              <span>ENTRY #{entry.number}</span>
+              <span>{entry.displayTitle ?? `ENTRY #${entry.number}`}</span>
               <span aria-hidden="true">→</span>
             </Link>
           </li>

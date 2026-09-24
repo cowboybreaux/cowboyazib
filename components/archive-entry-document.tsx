@@ -6,11 +6,14 @@ export function ArchiveEntryDocument({ entry }: { entry: ArchiveEntry }) {
   return (
     <article className="archive-paper">
       <header className="archive-entry-meta">
-        <h1 className="archive-entry-title">ENTRY #{entry.number}</h1>
+        <h1 className="archive-entry-title">
+          {entry.displayTitle ?? `ENTRY #${entry.number}`}
+        </h1>
         <time className="archive-entry-date" dateTime={entry.posted.iso}>
           {entry.posted.label}
         </time>
       </header>
+      {entry.title && <p className="archive-entry-heading">{entry.title}</p>}
       {entry.embed && (
         <div className="archive-embed">
           <iframe

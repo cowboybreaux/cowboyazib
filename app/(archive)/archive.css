@@ -148,6 +148,7 @@
 }
 .archive-prose p {
   margin: 0 0 1.8em;
+  white-space: pre-line;
 }
 .archive-paper,
 .archive-entry article {
@@ -186,6 +187,12 @@
   font-size: 11px;
   line-height: 1.4;
   letter-spacing: 0.025em;
+}
+.archive-entry-heading {
+  margin: 32px 0 0;
+  color: #252520;
+  font-size: 15px;
+  line-height: 1.45;
 }
 .archive-embed {
   position: relative;
@@ -272,7 +279,6 @@
   }
   .archive-embed {
     margin-top: 24px;
-    width: 60%;
   }
   .archive-attachment {
     margin-top: 2rem;

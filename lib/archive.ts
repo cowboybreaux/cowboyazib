@@ -1,6 +1,8 @@
 export type ArchiveEntry = {
   number: string;
   slug: string;
+  displayTitle?: string;
+  title?: string;
   posted: { iso: string; label: string };
   paragraphs: readonly string[];
   embed?: { src: string; title: string };
@@ -8,8 +10,21 @@ export type ArchiveEntry = {
   attachmentAfterParagraph?: number;
 };
 
-// Keep entry prose verbatim. New entries go first.
-export const archiveEntries = [
+// Keep entry prose verbatim. Entries are ordered newest first by archive timestamp.
+export const archiveEntries: readonly ArchiveEntry[] = [
+  {
+    number: '002',
+    slug: 'entry002',
+    posted: { iso: '2026-09-24', label: '24 SEPTEMBER 2026' },
+    embed: {
+      src: 'https://open.spotify.com/embed/track/01fzY6YKwKQ3LxCpIP6buB?utm_source=generator&si=e91dc92c491f4061',
+      title: 'Spotify track player',
+    },
+    paragraphs: [
+      "don't want to get too close i'm scared, do you hate me or do you care?\nthink about all the time i spent\nfeeling lost but i'm found again\nshould i jump in the unknown? is it better know how it unfolds?\nam i too young to be this mad? am i too old to blame my dad?",
+      "i'm so confused.",
+    ],
+  },
   {
     number: '001',
     slug: 'entry001',
@@ -31,4 +46,32 @@ export const archiveEntries = [
     },
     attachmentAfterParagraph: 1,
   },
-] as const satisfies readonly ArchiveEntry[];
+  {
+    number: '003',
+    slug: 'entry003',
+    displayTitle: 'archive 260811 0031',
+    posted: { iso: '2026-08-11T00:31:00', label: '11 AUGUST 2026' },
+    paragraphs: [
+      'a foreign touch never felt so familiar\nlike shadow you’ll go wherever i go\nslick is what you’re lacking for each time i catch you looking at me\nspeak your mind rest your head on my shoulder\na face so distant yet it seemed to be known for a lifetime\nlike moth to flames\nheadlights to deer\nsilence louder than a lover being lured',
+    ],
+  },
+  {
+    number: '004',
+    slug: 'entry004',
+    displayTitle: 'archive 260729 1138',
+    posted: { iso: '2026-07-29T11:38:00', label: '29 JULY 2026' },
+    paragraphs: [
+      'take away my music my poetry\nshallow inside because i have nothing left inside of me\npersonalized souvenir seem deep in the sea\nyou look at me broken, so sad, so poorly\nin the end i always knew empathy will be the death of me\nso please\ntake away my music my manuscript\nwritten under the impression of dignity\ndisguised as poetry',
+    ],
+  },
+  {
+    number: '005',
+    slug: 'entry005',
+    displayTitle: 'archive 260702 0338',
+    title: 'bunch of bullshit',
+    posted: { iso: '2026-07-02T03:38:00', label: '2 JULY 2026' },
+    paragraphs: [
+      "put it to bed give it a rest soon you'll be healed glory be the mended but once was tortured heart glorious to and from the same heart that continues to love regardless with regards thee highest for what has been but yet rages with passion and contradictory is a fist filled with resentment that started off as tolerance as the mind plays supercuts to remind the soul that it wouldn't be as it is without... love. bracing for impact means death is imminent but not literal so would a little love be considered destructive or it's just the nature of something considered beautiful unless you know where you will land but if you fall i will catch you from where you stand.",
+    ],
+  },
+] as const;

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import { ArchiveEntryDocument } from '@/components/archive-entry-document';
+import { ArchiveEntryLink } from '@/components/archive-entry-link';
 import { ArchiveEntrance } from '@/components/archive-entrance';
 import { archiveEntries } from '@/lib/archive';
 
@@ -16,10 +17,15 @@ export default function ArchiveIndex() {
       >
         {archiveEntries.map((entry) => (
           <li key={entry.slug}>
-            <Link href={`/${entry.slug}/`}>
+            <ArchiveEntryLink
+              href={`/${entry.slug}/`}
+              title={entry.displayTitle ?? `ENTRY #${entry.number}`}
+              date={entry.posted.label}
+              panel={<ArchiveEntryDocument entry={entry} />}
+            >
               <span>{entry.displayTitle ?? `ENTRY #${entry.number}`}</span>
               <span aria-hidden="true">→</span>
-            </Link>
+            </ArchiveEntryLink>
           </li>
         ))}
       </ol>

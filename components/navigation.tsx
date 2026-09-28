@@ -4,8 +4,10 @@ import {
   useEffect,
   useRef,
   useState,
+  type CSSProperties,
   type KeyboardEvent,
   type MouseEvent,
+  type PointerEvent as ReactPointerEvent,
 } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -13,20 +15,36 @@ import { usePathname } from 'next/navigation';
 import { scrollToSection } from '@/lib/section-navigation';
 
 const CLOSE_DURATION_MS = 420;
+const CONTACT_FADE_DURATION_MS = 180;
+const CONTACT_DODGE_DISTANCE = 96;
+const CONTACT_DODGE_VERTICAL_DISTANCE = 28;
+const CONTACT_DODGE_APPROACH_DISTANCE = 280;
+
 
 export function Navigation() {
   const path = usePathname();
   const menuRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLElement>(null);
   const brandRef = useRef<HTMLAnchorElement>(null);
+  const contactRef = useRef<HTMLButtonElement>(null);
   const closeTimerRef = useRef<number | null>(null);
+  const contactCloseTimerRef = useRef<number | null>(null);
   const pendingSectionRef = useRef<string | null>(null);
+  const contactDodgeCooldownRef = useRef(0);
+  const lastPointerTypeRef = useRef<string | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
+  const [contactOffset, setContactOffset] = useState({ x: 0, y: 0 });
+  const [isContactReady, setIsContactReady] = useState(false);
+  const [isContactWindowOpen, setIsContactWindowOpen] = useState(false);
+  const [isContactWindowClosing, setIsContactWindowClosing] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   const closeMenu = useCallback(() => {
     if (!isMenuOpen) return;
     setIsClosing(true);
+    setIsContactWindowOpen(false);
+    setIsContactWindowClosing(false);
     if (closeTimerRef.current) {
       window.clearTimeout(closeTimerRef.current);
     }
@@ -49,6 +67,20 @@ export function Navigation() {
       window.history.scrollRestoration = previousScrollRestoration;
     };
   }, [path]);
+
+  useEffect(() => {
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const updateMotionPreference = () => {
+      setPrefersReducedMotion(motion.matches);
+      if (motion.matches) {
+        setIsContactReady(true);
+        setContactOffset({ x: 0, y: 0 });
+      }
+    };
+    updateMotionPreference();
+    motion.addEventListener('change', updateMotionPreference);
+    return () => motion.removeEventListener('change', updateMotionPreference);
+  }, []);
 
   useEffect(() => {
     const header = headerRef.current;
@@ -122,6 +154,10 @@ export function Navigation() {
     const handlePointerDown = (event: PointerEvent) => {
       const menu = menuRef.current;
       if (!menu || !isMenuOpen) return;
+      if (
+        event.target instanceof Element &&
+        event.target.closest('.contact-overlay')
+      ) return;
       if (event.target instanceof Node && !menu.contains(event.target)) {
         closeMenu();
       }
@@ -129,6 +165,10 @@ export function Navigation() {
     const handleFocusOut = (event: FocusEvent) => {
       const menu = menuRef.current;
       if (!menu || !isMenuOpen) return;
+      if (
+        event.relatedTarget instanceof Element &&
+        event.relatedTarget.closest('.contact-overlay')
+      ) return;
       if (
         event.relatedTarget instanceof Node &&
         !menu.contains(event.relatedTarget)
@@ -144,8 +184,87 @@ export function Navigation() {
     };
   }, [closeMenu, isMenuOpen]);
 
+  useEffect(() => {
+    return () => {
+      if (contactCloseTimerRef.current) {
+        window.clearTimeout(contactCloseTimerRef.current);
+      }
+    };
+  }, []);
+
+  const resetContactEscape = () => {
+    contactDodgeCooldownRef.current = 0;
+    setContactOffset({ x: 0, y: 0 });
+    setIsContactReady(prefersReducedMotion);
+  };
+
+  const markContactReady = () => {
+    setIsContactReady(true);
+    setContactOffset({ x: 0, y: 0 });
+  };
+
+  const openContactWindow = () => {
+    if (contactCloseTimerRef.current) {
+      window.clearTimeout(contactCloseTimerRef.current);
+      contactCloseTimerRef.current = null;
+    }
+    setIsContactWindowClosing(false);
+    setIsContactWindowOpen(true);
+  };
+
+  const closeContactWindow = () => {
+    if (!isContactWindowOpen || isContactWindowClosing) return;
+    if (prefersReducedMotion) {
+      setIsContactWindowOpen(false);
+      setIsContactWindowClosing(false);
+      return;
+    }
+    setIsContactWindowClosing(true);
+    if (contactCloseTimerRef.current) {
+      window.clearTimeout(contactCloseTimerRef.current);
+    }
+    contactCloseTimerRef.current = window.setTimeout(() => {
+      setIsContactWindowOpen(false);
+      setIsContactWindowClosing(false);
+      contactCloseTimerRef.current = null;
+    }, CONTACT_FADE_DURATION_MS);
+  };
+
+  const dodgeContactFromPoint = (
+    clientX: number,
+    clientY: number,
+    pointerType: string,
+  ) => {
+    if (prefersReducedMotion || isContactReady || pointerType !== 'mouse') return;
+    const contact = contactRef.current;
+    if (!contact) return;
+
+    const bounds = contact.getBoundingClientRect();
+    const centerX = bounds.left + bounds.width / 2;
+    const centerY = bounds.top + bounds.height / 2;
+    const deltaX = centerX - clientX;
+    const deltaY = centerY - clientY;
+    const distance = Math.hypot(deltaX, deltaY) || 1;
+    if (distance > CONTACT_DODGE_APPROACH_DISTANCE) return;
+
+    const now = window.performance.now();
+    if (now - contactDodgeCooldownRef.current < 95) return;
+    contactDodgeCooldownRef.current = now;
+
+    const x = (deltaX / distance) * CONTACT_DODGE_DISTANCE;
+    const y = (deltaY / distance) * CONTACT_DODGE_VERTICAL_DISTANCE;
+
+    setIsContactReady(false);
+    setContactOffset({ x, y });
+  };
+
+  const dodgeContact = (event: ReactPointerEvent<HTMLElement>) => {
+    dodgeContactFromPoint(event.clientX, event.clientY, event.pointerType);
+  };
+
   const openMenu = () => {
     pendingSectionRef.current = null;
+    resetContactEscape();
     if (closeTimerRef.current) {
       window.clearTimeout(closeTimerRef.current);
     }
@@ -175,6 +294,24 @@ export function Navigation() {
       scrollToSection(id);
     }
   };
+
+  const handleContactClick = () => {
+    markContactReady();
+    openContactWindow();
+  };
+
+  const handleContactKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
+    if (isContactWindowOpen && event.key === 'Escape') {
+      event.preventDefault();
+      return;
+    }
+    closeOnEscape(event);
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    event.preventDefault();
+    markContactReady();
+    openContactWindow();
+  };
+
 
   return (
     <header ref={headerRef} className="masthead">
@@ -220,6 +357,10 @@ export function Navigation() {
           aria-label="Main navigation"
           className="menu-panel"
           aria-hidden={!isMenuOpen && !isClosing}
+          onPointerMove={(event) => {
+            lastPointerTypeRef.current = event.pointerType;
+            dodgeContact(event);
+          }}
         >
           <div className="menu-inner">
             <Link
@@ -257,7 +398,30 @@ export function Navigation() {
               <span className="menu-label">Archive</span>
               <span className="menu-arrow" aria-hidden="true" />
             </Link>
-            <button type="button" className="menu-link is-inactive" aria-label="Contact is not yet available">
+            <button
+              ref={contactRef}
+              type="button"
+              className="menu-link menu-contact"
+              style={{
+                '--contact-dodge-x': `${contactOffset.x}px`,
+                '--contact-dodge-y': `${contactOffset.y}px`,
+              } as CSSProperties}
+              onPointerEnter={(event) => {
+                lastPointerTypeRef.current = event.pointerType;
+                dodgeContact(event);
+              }}
+              onPointerMove={(event) => {
+                lastPointerTypeRef.current = event.pointerType;
+                dodgeContact(event);
+              }}
+              onPointerLeave={() => {
+                if (!isContactReady) setContactOffset({ x: 0, y: 0 });
+              }}
+              onClick={handleContactClick}
+              onKeyDown={handleContactKeyDown}
+              aria-haspopup="dialog"
+              aria-expanded={isContactWindowOpen}
+            >
               <span className="menu-index">05</span>
               <span className="menu-label">Contact</span>
             </button>
@@ -270,6 +434,38 @@ export function Navigation() {
         </nav>
       </div>
 
+      {isContactWindowOpen && (
+        <div
+          className="contact-overlay"
+          data-state={isContactWindowClosing ? 'closing' : 'open'}
+        >
+          <button
+            type="button"
+            className="contact-backdrop"
+            aria-label="Close contact window"
+            onClick={closeContactWindow}
+          />
+          <div
+            className="contact-window"
+            role="dialog"
+            aria-modal="false"
+            aria-label="Contact"
+          >
+            <div className="contact-window-bar">
+              <span className="contact-window-control contact-window-control-red" aria-hidden="true" />
+              <span className="contact-window-control contact-window-control-yellow" aria-hidden="true" />
+              <span className="contact-window-control contact-window-control-green" aria-hidden="true" />
+            </div>
+            <div className="contact-window-body">
+              <p>NOT TAKING ON PROJECTS JUST YET. GIVE ME A MINUTE.</p>
+              <p>
+                HIT MY LINE THO... WHO KNOWS! AHA{' '}
+                <a href="mailto:AJIBREAUX@GMAIL.COM">AJIBREAUX@GMAIL.COM</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 }

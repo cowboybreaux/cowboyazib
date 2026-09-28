@@ -278,7 +278,7 @@ export function Footer() {
     <footer className="site-footer">
       <div className="footer-inner">
         <span className="footer-icon" aria-hidden="true" />
-        <span>© 2026 SHAHRUL AZIB</span>
+        <span>© 2026 SHAHRUL AZIB // ALL RIGHTS RESERVED</span>
         <span className="footer-star" aria-hidden="true" />
       </div>
     </footer>

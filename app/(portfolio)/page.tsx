@@ -11,6 +11,7 @@ import {
 import { WorkSlideshow } from '@/components/work-slideshow';
 import { projects } from '@/lib/content';
 import { Skills } from '@/components/skills';
+import { LiquidGlassButton } from '@/components/liquid-glass-button';
 export default function Home() {
   return (
     <main id="main" tabIndex={-1} className="slides">
@@ -24,12 +25,12 @@ export default function Home() {
           </h1>
           <HeroCopy />
           <div className="hero-actions">
-            <a className="ghost-button" href="#about-me">
-              More about me <ArrowUpRight className="hero-button-icon" aria-hidden="true" />
-            </a>
-            <a className="ghost-button" href="#selected-work">
+            <LiquidGlassButton href="#about-me">
+              About me <ArrowUpRight className="hero-button-icon" aria-hidden="true" />
+            </LiquidGlassButton>
+            <LiquidGlassButton href="#selected-work">
               Work <ArrowDown className="hero-button-icon" aria-hidden="true" />
-            </a>
+            </LiquidGlassButton>
           </div>
         </div>
       </section>

@@ -47,15 +47,6 @@ export default function RootLayout({
           <Navigation />
           {children}
         </div>
-        <aside className="psa-banner" aria-label="Project availability">
-          <div className="psa-copy">
-            <p>NOT TAKING ON PROJECTS JUST YET. GIVE ME A MINUTE.</p>
-            <p>
-              HIT MY LINE THO... WHO KNOWS! AHA{' '}
-              <a href="mailto:AJIBREAUX@GMAIL.COM">AJIBREAUX@GMAIL.COM</a>
-            </p>
-          </div>
-        </aside>
         <Footer />
       </body>
     </html>

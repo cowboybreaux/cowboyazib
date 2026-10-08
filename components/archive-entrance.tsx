@@ -1,66 +1,63 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
-const TYPE_DURATION_MS = 1404;
-const ARCHIVE_INTRO_PLAYED_KEY = 'archiveIntroPlayed';
+const ARCHIVE_STAR_PLAYED_KEY = 'archiveHeadingStarPlayed';
+const STAR_DURATION_MS = 650;
 
-function hasPlayedArchiveIntro() {
+function hasPlayedHeadingStar() {
   try {
-    return window.sessionStorage.getItem(ARCHIVE_INTRO_PLAYED_KEY) === 'true';
+    return window.sessionStorage.getItem(ARCHIVE_STAR_PLAYED_KEY) === 'true';
   } catch {
     return false;
   }
 }
 
-function isArchiveRefresh() {
+function markHeadingStarAsPlayed() {
   try {
-    const navigationEntry = performance.getEntriesByType('navigation')[0] as
-      | PerformanceNavigationTiming
-      | undefined;
-
-    return navigationEntry?.type === 'reload';
+    window.sessionStorage.setItem(ARCHIVE_STAR_PLAYED_KEY, 'true');
   } catch {
-    return false;
+    // The flourish can still play when session storage is unavailable.
   }
 }
 
-function markArchiveIntroAsPlayed() {
-  try {
-    window.sessionStorage.setItem(ARCHIVE_INTRO_PLAYED_KEY, 'true');
-  } catch {
-    // Continue with the visual intro if session storage is unavailable.
-  }
-}
+export function ArchiveHeadingStar() {
+  const star = useRef<HTMLSpanElement>(null);
 
-export function ArchiveEntrance() {
   useEffect(() => {
-    const root = document.documentElement;
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const alreadyPlayed = hasPlayedArchiveIntro() && !isArchiveRefresh();
+    const element = star.current;
+    const reducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches;
 
-    if (alreadyPlayed) {
-      root.dataset.archiveEntrance = 'done';
-      return;
-    }
+    if (!element || reducedMotion || hasPlayedHeadingStar()) return;
 
-    markArchiveIntroAsPlayed();
+    markHeadingStarAsPlayed();
+    const animation = element.animate(
+      [
+        {
+          opacity: 0,
+          transform: 'translate(-42%, 30%) scale(0.25) rotate(-36deg)',
+        },
+        {
+          opacity: 1,
+          transform: 'translate(8%, -12%) scale(1.35) rotate(18deg)',
+          offset: 0.55,
+        },
+        { opacity: 1, transform: 'translate(0, 0) scale(1) rotate(0deg)' },
+      ],
+      {
+        duration: STAR_DURATION_MS,
+        easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)',
+      },
+    );
 
-    if (reducedMotion.matches) {
-      root.dataset.archiveEntrance = 'done';
-      return;
-    }
-
-    root.dataset.archiveEntrance = 'typing';
-    const revealTimer = window.setTimeout(() => {
-      root.dataset.archiveEntrance = 'done';
-    }, TYPE_DURATION_MS);
-
-    return () => {
-      window.clearTimeout(revealTimer);
-      delete root.dataset.archiveEntrance;
-    };
+    return () => animation.cancel();
   }, []);
 
-  return null;
+  return (
+    <span ref={star} className="archive-title-star" aria-hidden="true">
+      ★
+    </span>
+  );
 }

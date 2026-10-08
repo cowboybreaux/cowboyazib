@@ -5,13 +5,44 @@ export type ArchiveEntry = {
   title?: string;
   posted: { iso: string; label: string };
   paragraphs: readonly string[];
-  embed?: { src: string; title: string };
+  embed?: { src: string; title: string; height?: number };
   attachment?: { src: string; width: number; height: number; alt: string };
   attachmentAfterParagraph?: number;
 };
 
 // Keep entry prose verbatim. Entries are ordered newest first by archive timestamp.
 export const archiveEntries: readonly ArchiveEntry[] = [
+  {
+    number: '004',
+    slug: 'entry007',
+    displayTitle: 'ENTRY #004 ONSRA BABY!',
+    posted: {
+      iso: '2026-10-06T03:47:00+08:00',
+      label: '6 OCTOBER 2026, 3:47 AM',
+    },
+    embed: {
+      src: 'https://open.spotify.com/embed/track/2KrOAg6FftbjgSKdd2a4rS?utm_source=generator&si=acac32268c714e16',
+      title: 'Spotify track player',
+      height: 152,
+    },
+    paragraphs: [
+      'you went through metanoia off shore and at the sea each time lands don’t feel safe to land on\ndeep is the ocean blue and the blues wave over you\ndeep is the ache from the sorrow that shot you\u00a0 leaving not even your dignity\u00a0\nbut when you’re back at where you were right before you left,\u00a0\nyou brought waves of joy,\u00a0\naway from the people whom your heart they toyed',
+      'in sea i stopped hearing from you\nbut like caesura i’m, again, writing about you\nfresh out the slammer, you’re brand new\nmaverick fuel the soul, no longer holding onto the blues\njust reminiscent of the sea how big how beautiful and how blue',
+    ],
+  },
+  {
+    number: '003',
+    slug: 'entry006',
+    posted: {
+      iso: '2026-09-28T23:37:00+08:00',
+      label: '28 SEPTEMBER 2026, 11:37 PM',
+    },
+    paragraphs: [
+      'what’s worse\npreserving a tale as old as time by living off swallowing scorching hot liquid as it melts all of your veins and vessels while every part of your anatomy and your conscience burst into flames till the only proof you is words of mouth \nor breaking a chain that wraps around your father that wrapped by his father and wrapped by his father and risk it all over something as sacred as merely inherited folklore',
+      'are you scared that you’re nothing more than a story or living your life conquered by the power of one',
+      'when does it stop and will the later actually start',
+    ],
+  },
   {
     number: '002',
     slug: 'entry002',

@@ -6,26 +6,28 @@ export function ArchiveEntryDocument({ entry }: { entry: ArchiveEntry }) {
   return (
     <article className="archive-paper">
       <header className="archive-entry-meta">
-        <h1 className="archive-entry-title">
+        <h1 id="archive-reader-title" className="archive-entry-title">
           {entry.displayTitle ?? `ENTRY #${entry.number}`}
         </h1>
         <time className="archive-entry-date" dateTime={entry.posted.iso}>
           {entry.posted.label}
         </time>
       </header>
-      {entry.title && <p className="archive-entry-heading">{entry.title}</p>}
       {entry.embed && (
-        <div className="archive-embed">
+        <div className="archive-embed" style={{ height: entry.embed.height }}>
           <iframe
             src={entry.embed.src}
             title={entry.embed.title}
             data-testid="embed-iframe"
+            width="100%"
+            height={entry.embed.height ?? 152}
             allowFullScreen
             allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
             loading="lazy"
           />
         </div>
       )}
+      {entry.title && <p className="archive-entry-heading">{entry.title}</p>}
       <div className="archive-prose">
         {entry.paragraphs.map((paragraph, index) => (
           <Fragment key={index}>

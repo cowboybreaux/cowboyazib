@@ -3,11 +3,11 @@ import { ArchiveStandaloneEntry } from '@/components/archive-entry-view';
 import { archiveEntries } from '@/lib/archive';
 
 export const metadata: Metadata = {
-  title: 'archive 260729 1138',
-  alternates: { canonical: '/entry004/' },
+  title: 'ENTRY #004 ONSRA BABY!',
+  alternates: { canonical: '/entry007/' },
 };
 
-export default function Entry004() {
-  const entry = archiveEntries.find((item) => item.slug === 'entry004')!;
+export default function Entry007() {
+  const entry = archiveEntries.find((item) => item.slug === 'entry007')!;
   return <ArchiveStandaloneEntry entry={entry} />;
 }

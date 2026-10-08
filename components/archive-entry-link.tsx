@@ -2,28 +2,19 @@
 
 import Link from 'next/link';
 import type { MouseEvent, ReactNode } from 'react';
-import { useArchiveTransition } from '@/components/archive-transition';
 
 type ArchiveEntryLinkProps = {
   href: string;
-  title: string;
-  date: string;
-  panel: ReactNode;
+  label: string;
   children: ReactNode;
 };
 
 export function ArchiveEntryLink({
   href,
-  title,
-  date,
-  panel,
+  label,
   children,
 }: ArchiveEntryLinkProps) {
-  const transition = useArchiveTransition();
-
   const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
-    if (!transition) return;
-
     if (
       event.metaKey ||
       event.ctrlKey ||
@@ -34,27 +25,28 @@ export function ArchiveEntryLink({
       return;
     }
 
-    event.preventDefault();
     const rect = event.currentTarget.getBoundingClientRect();
-    transition.open(
-      {
-        href,
-        title,
-        date,
-        panel,
-        origin: {
-          x: rect.left + rect.width / 2,
-          y: rect.top + rect.height / 2,
-          width: rect.width,
-          height: rect.height,
-        },
-      },
-      event,
+    const root = document.documentElement;
+    root.style.setProperty(
+      '--archive-origin-x',
+      `${rect.left + rect.width / 2}px`,
     );
+    root.style.setProperty(
+      '--archive-origin-y',
+      `${rect.top + rect.height / 2}px`,
+    );
+    root.style.setProperty('--archive-origin-width', `${rect.width}px`);
+    root.style.setProperty('--archive-origin-height', `${rect.height}px`);
   };
 
   return (
-    <Link href={href} onClick={handleClick}>
+    <Link
+      href={href}
+      aria-label={label}
+      onClick={handleClick}
+      scroll={false}
+      data-archive-entry-link
+    >
       {children}
     </Link>
   );

@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server';
+import { archiveEntries } from '@/lib/archive';
 
 export function proxy(request: NextRequest) {
   const hostname = (request.headers.get('host') ?? '')
@@ -15,7 +16,12 @@ export function proxy(request: NextRequest) {
     url.pathname = '/';
     return NextResponse.redirect(url);
   }
-  if (url.pathname === '/entry001' || url.pathname === '/entry001/') {
+  if (
+    archiveEntries.some(
+      (entry) =>
+        url.pathname === `/${entry.slug}` || url.pathname === `/${entry.slug}/`,
+    )
+  ) {
     return NextResponse.next();
   }
   url.pathname = `/archive${url.pathname}`;

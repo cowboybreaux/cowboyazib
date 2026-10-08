@@ -17,6 +17,7 @@ const STAR =
   '50,0 61.23,34.55 97.55,34.55 68.16,55.9 79.39,90.45 ' +
   '50,69.1 20.61,90.45 31.84,55.9 2.45,34.55 38.77,34.55';
 const starStyle = { width: `clamp(7px, ${ENTRANCE.starSize}vmin, 22px)` };
+const edgeStarStyle = { width: 'clamp(10px, 3.2vmin, 34px)' };
 const insetStyle = {
   '--edge-star-inset': ENTRANCE.edgeInset,
 } as React.CSSProperties;
@@ -193,7 +194,7 @@ export function StarEntrance() {
             className={`edge-star edge-star-${side}`}
             viewBox="0 0 100 100"
             focusable="false"
-            style={starStyle}
+            style={edgeStarStyle}
           >
             <polygon points={STAR} fill="#D1001F" />
           </svg>
